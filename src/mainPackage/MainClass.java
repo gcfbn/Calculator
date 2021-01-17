@@ -13,5 +13,4 @@ public class MainClass {
         this.mainFrame = new SimpleCalculator();
         mainFrame.setTitle("Calculator");
     }
-
 }

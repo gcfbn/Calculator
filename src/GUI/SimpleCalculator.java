@@ -5,13 +5,24 @@ import javax.swing.*;
 import buttons.*;
 
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class SimpleCalculator extends JFrame {
 
-    private JTextArea screen;
-    private OtherButton nine, eight, seven, six, five, four, three, two, one, comma, zero, equals;
+    private JTextArea display;
+    private OtherButton nine, eight, seven, six, five, four, three, two, one, point, zero, equals;
     private TwoArgumentFunction plus, minus, multiply, divide;
     private OtherButton sqrt, percent, delete, clear, memoryRecall, memoryClear, memoryPlus, memoryMinus;
+
+    private boolean wasFunctionCalled = false;  //is true, when last operation was '=' or
+    // one-argument function and next entered digit will replace the already displayed numbers
+    //for example: when you enter '2' '+' '2' '=' there should be '4' on the display and next entered digit
+    // will replace this '4'
+    //if false, next entered digit will be appended to current number on the display
+
+    private JButton clickedFunction = null;
+    private String firstArgument;   //both this fields are used for two-argument functions
 
     public SimpleCalculator() {
 
@@ -19,9 +30,10 @@ public class SimpleCalculator extends JFrame {
         this.setLayout(new GridBagLayout());
         this.createGUI();
         this.pack();
+        this.addActionListeners();
+        this.setResizable(false);
         this.setVisible(true);
     }
-
 
     private void createGUI() {
 
@@ -34,10 +46,10 @@ public class SimpleCalculator extends JFrame {
         constraints.gridy = 0;
         constraints.insets = new Insets(2, 2, 2, 2); //margins
 
-        screen = new JTextArea("0");
-        screen.setEditable(false);
-        screen.setFont(new Font("Arial", Font.BOLD, 24));
-        this.getContentPane().add(screen, constraints);
+        display = new JTextArea("0");
+        display.setEditable(false);
+        display.setFont(new Font("Arial", Font.BOLD, 24));
+        this.getContentPane().add(display, constraints);
 
         constraints.fill = GridBagConstraints.NONE;
         constraints.gridwidth = 1;
@@ -81,8 +93,8 @@ public class SimpleCalculator extends JFrame {
 
         constraints.gridy = 4;
         constraints.gridx = 0;
-        comma = new OtherButton(",");
-        this.getContentPane().add(comma, constraints);
+        point = new OtherButton(".");
+        this.getContentPane().add(point, constraints);
 
         constraints.gridx = 1;
         zero = new OtherButton("0");
@@ -146,4 +158,127 @@ public class SimpleCalculator extends JFrame {
         this.getContentPane().add(memoryMinus, constraints);
     }
 
+    private void addNumberToScreen(String text) {
+
+        if (display.getText().length() >= 9) return;
+
+        if (wasFunctionCalled) setScreenText(text);
+
+        if (display.getText().equals("0") && !text.equals(".")) {
+            setScreenText(text);
+        }
+        else display.append(text);
+    }
+
+    private void setScreenText(String text) {
+
+        if (text.length() < 1) display.setText("0");
+        else display.setText(text);
+    }
+
+    class NumberActionListener implements ActionListener {
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+
+            Object source = e.getSource();
+            String buttonText = ((OtherButton) source).getText();
+
+            if (wasFunctionCalled) setScreenText(buttonText);
+            else addNumberToScreen(buttonText);
+
+            wasFunctionCalled = false;
+        }
+    }
+
+    class PointActionListener implements ActionListener{
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+
+            String currentText = display.getText();
+            if (!currentText.contains(".")){
+                String newText = currentText + ".";
+
+                display.setText(newText);
+            }
+
+            wasFunctionCalled = false;
+        }
+    }
+
+    class DeleteActionListener implements ActionListener {
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+
+            String currentText = display.getText();
+
+            if (currentText.length() <= 1) setScreenText("0");
+            else {
+                String newText = currentText.substring(0, currentText.length() - 1);
+                setScreenText(newText);
+            }
+            wasFunctionCalled = false;
+        }
+    }
+
+    class ClearActionListener implements ActionListener{
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            setScreenText("0");
+            wasFunctionCalled = false;
+        }
+    }
+
+    class TwoArgumentFunctionActionListener implements ActionListener{
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+
+            clickedFunction = (JButton)e.getSource();
+            firstArgument = display.getText();
+            wasFunctionCalled = true;
+        }
+    }
+
+    class EqualsActionListener implements ActionListener{
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+
+            if (!wasFunctionCalled){
+
+                String secondArgument = display.getText();
+
+            }
+
+        }
+
+    }
+
+    private void addActionListeners() {
+
+        zero.addActionListener(new NumberActionListener());
+        one.addActionListener(new NumberActionListener());
+        two.addActionListener(new NumberActionListener());
+        three.addActionListener(new NumberActionListener());
+        four.addActionListener(new NumberActionListener());
+        five.addActionListener(new NumberActionListener());
+        six.addActionListener(new NumberActionListener());
+        seven.addActionListener(new NumberActionListener());
+        eight.addActionListener(new NumberActionListener());
+        nine.addActionListener(new NumberActionListener());
+
+        point.addActionListener(new PointActionListener());
+
+        delete.addActionListener(new DeleteActionListener());
+        clear.addActionListener(new ClearActionListener());
+
+        plus.addActionListener(new TwoArgumentFunctionActionListener());
+        minus.addActionListener(new TwoArgumentFunctionActionListener());
+        multiply.addActionListener(new TwoArgumentFunctionActionListener());
+        divide.addActionListener(new TwoArgumentFunctionActionListener());
+    }
 }
