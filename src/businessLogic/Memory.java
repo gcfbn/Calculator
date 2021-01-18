@@ -15,7 +15,7 @@ public class Memory {
 
         double doubleArgument = Double.parseDouble(Functions.removeUnnecessaryDot(argument));
 
-        currentValue += doubleArgument;
+        currentValue -= doubleArgument;
     }
 
     public void memoryClear() {

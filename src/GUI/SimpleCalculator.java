@@ -3,6 +3,7 @@ package GUI;
 import javax.swing.*;
 
 import businessLogic.BusinessLogic;
+import businessLogic.Memory;
 import buttons.*;
 
 import java.awt.*;
@@ -15,10 +16,12 @@ public class SimpleCalculator extends JFrame {
     private OtherButton nine, eight, seven, six, five, four, three, two, one, point, zero, equals;
     private TwoArgumentFunction plus, minus, multiply, divide;
     private OtherButton sqrt, percent, delete, clear, memoryRecall, memoryClear, memoryPlus, memoryMinus;
+    private final Memory memory;
 
     private final String ERROR_TEXT = "ERROR";
 
-    private boolean nextDigitReplacesDisplay = false;  //is true, when last operation was '=' or
+    private boolean nextDigitReplacesDisplay = false;
+    //is true, when last operation was '=' or
     // there is an error on the screen
     // so next entered digit will replace the already displayed numbers
     // for example: when you enter '2' '+' '2' '=' there should be '4' on the display and next entered digit
@@ -29,6 +32,8 @@ public class SimpleCalculator extends JFrame {
     private String firstArgument;   //both this fields are used for two-argument functions
 
     public SimpleCalculator() {
+
+        this.memory = new Memory();
 
         this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         this.setLayout(new GridBagLayout());
@@ -300,6 +305,36 @@ public class SimpleCalculator extends JFrame {
         }
     }
 
+    class MemoryActionListener implements ActionListener {
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+
+            String function = ((JButton) e.getSource()).getText();
+
+            switch (function) {
+
+                case "M+" -> {
+                    String value = display.getText();
+                    if (!value.equals(ERROR_TEXT)) memory.memoryPlus(value);
+                }
+
+                case "M-" -> {
+                    String value = display.getText();
+                    if (!value.equals(ERROR_TEXT)) memory.memoryMinus(value);
+                }
+
+                case "MC" -> memory.memoryClear();
+
+                case "MR" -> {
+                    setScreenText(memory.memoryRecall());
+                    nextDigitReplacesDisplay = false;
+                }
+            }
+            System.out.println(memory.memoryRecall());
+        }
+    }
+
     private void addActionListeners() {
 
         zero.addActionListener(new NumberActionListener());
@@ -327,5 +362,10 @@ public class SimpleCalculator extends JFrame {
 
         sqrt.addActionListener(new OneArgumentFunctionActionListener());
         percent.addActionListener(new OneArgumentFunctionActionListener());
+
+        memoryPlus.addActionListener(new MemoryActionListener());
+        memoryMinus.addActionListener(new MemoryActionListener());
+        memoryClear.addActionListener(new MemoryActionListener());
+        memoryRecall.addActionListener(new MemoryActionListener());
     }
 }
