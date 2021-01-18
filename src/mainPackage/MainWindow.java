@@ -5,14 +5,13 @@ import GUI.SimpleCalculator;
 import javax.swing.*;
 import java.awt.*;
 
-public class MainClass extends JFrame{
+public class MainWindow extends JFrame{
 
     private JPanel view;
 
-    public MainClass(){
+    public MainWindow(){
 
         this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-
 
         this.setLayout(new GridBagLayout());
         this.setTitle("Calculator");

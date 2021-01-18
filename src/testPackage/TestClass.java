@@ -6,6 +6,6 @@ public class TestClass {
 
     public static void main (String[] args){
 
-        MainClass mainClass = new MainClass();
+        MainWindow mainClass = new MainWindow();
     }
 }
