@@ -211,6 +211,12 @@ public class SimpleCalculator extends JPanel {
         @Override
         public void actionPerformed(ActionEvent e) {
 
+            if (nextDigitReplacesDisplay){
+                setScreenText("0.");
+                nextDigitReplacesDisplay = false;
+                return;
+            }
+
             String currentText = display.getText();
             if (!currentText.contains(".")) {
                 String newText = currentText + ".";
@@ -328,7 +334,6 @@ public class SimpleCalculator extends JPanel {
                     nextDigitReplacesDisplay = false;
                 }
             }
-            System.out.println(memory.memoryRecall());
         }
     }
 
