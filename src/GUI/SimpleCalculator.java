@@ -10,7 +10,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class SimpleCalculator extends JFrame {
+public class SimpleCalculator extends JPanel {
 
     private JTextArea display;
     private OtherButton nine, eight, seven, six, five, four, three, two, one, point, zero, equals;
@@ -35,13 +35,10 @@ public class SimpleCalculator extends JFrame {
 
         this.memory = new Memory();
 
-        this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         this.setLayout(new GridBagLayout());
         this.createGUI();
-        this.pack();
         this.addActionListeners();
-        this.setResizable(false);
-        this.setVisible(true);
+
 
 
     }
@@ -60,113 +57,113 @@ public class SimpleCalculator extends JFrame {
         display = new JTextArea("0");
         display.setEditable(false);
         display.setFont(new Font("Arial", Font.BOLD, 24));
-        this.getContentPane().add(display, constraints);
+        this.add(display, constraints);
 
         constraints.fill = GridBagConstraints.NONE;
         constraints.gridwidth = 1;
         constraints.gridy = 1;
         seven = new OtherButton("7");
-        this.getContentPane().add(seven, constraints);
+        this.add(seven, constraints);
 
         constraints.gridx = 1;
         eight = new OtherButton("8");
-        this.getContentPane().add(eight, constraints);
+        this.add(eight, constraints);
 
         constraints.gridx = 2;
         nine = new OtherButton("9");
-        this.getContentPane().add(nine, constraints);
+        this.add(nine, constraints);
 
         constraints.gridy = 2;
         constraints.gridx = 0;
         four = new OtherButton("4");
-        this.getContentPane().add(four, constraints);
+        this.add(four, constraints);
 
         constraints.gridx = 1;
         five = new OtherButton("5");
-        this.getContentPane().add(five, constraints);
+        this.add(five, constraints);
 
         constraints.gridx = 2;
         six = new OtherButton("6");
-        this.getContentPane().add(six, constraints);
+        this.add(six, constraints);
 
         constraints.gridy = 3;
         constraints.gridx = 0;
         one = new OtherButton("1");
-        this.getContentPane().add(one, constraints);
+        this.add(one, constraints);
 
         constraints.gridx = 1;
         two = new OtherButton("2");
-        this.getContentPane().add(two, constraints);
+        this.add(two, constraints);
 
         constraints.gridx = 2;
         three = new OtherButton("3");
-        this.getContentPane().add(three, constraints);
+        this.add(three, constraints);
 
         constraints.gridy = 4;
         constraints.gridx = 0;
         point = new OtherButton(".");
-        this.getContentPane().add(point, constraints);
+        this.add(point, constraints);
 
         constraints.gridx = 1;
         zero = new OtherButton("0");
-        this.getContentPane().add(zero, constraints);
+        this.add(zero, constraints);
 
         constraints.gridx = 2;
         equals = new OtherButton("=");
-        this.getContentPane().add(equals, constraints);
+        this.add(equals, constraints);
 
         constraints.gridy = 1;
         constraints.gridx = 3;
         plus = new TwoArgumentFunction("+");
-        this.getContentPane().add(plus, constraints);
+        this.add(plus, constraints);
 
         constraints.gridy = 2;
         minus = new TwoArgumentFunction("-");
-        this.getContentPane().add(minus, constraints);
+        this.add(minus, constraints);
 
         constraints.gridy = 3;
         multiply = new TwoArgumentFunction("*");
-        this.getContentPane().add(multiply, constraints);
+        this.add(multiply, constraints);
 
         constraints.gridy = 4;
         divide = new TwoArgumentFunction("/");
-        this.getContentPane().add(divide, constraints);
+        this.add(divide, constraints);
 
         constraints.gridy = 1;
         constraints.gridx = 4;
         delete = new OtherButton("C");
-        this.getContentPane().add(delete, constraints);
+        this.add(delete, constraints);
 
         constraints.gridx = 5;
         clear = new OtherButton("CE");
-        this.getContentPane().add(clear, constraints);
+        this.add(clear, constraints);
 
         constraints.gridy = 2;
         constraints.gridx = 4;
         sqrt = new OtherButton("\u221A");
-        this.getContentPane().add(sqrt, constraints);
+        this.add(sqrt, constraints);
 
         constraints.gridx = 5;
         percent = new OtherButton("%");
-        this.getContentPane().add(percent, constraints);
+        this.add(percent, constraints);
 
         constraints.gridy = 3;
         constraints.gridx = 4;
         memoryRecall = new OtherButton("MR");
-        this.getContentPane().add(memoryRecall, constraints);
+        this.add(memoryRecall, constraints);
 
         constraints.gridx = 5;
         memoryClear = new OtherButton("MC");
-        this.getContentPane().add(memoryClear, constraints);
+        this.add(memoryClear, constraints);
 
         constraints.gridy = 4;
         constraints.gridx = 4;
         memoryPlus = new OtherButton("M+");
-        this.getContentPane().add(memoryPlus, constraints);
+        this.add(memoryPlus, constraints);
 
         constraints.gridx = 5;
         memoryMinus = new OtherButton("M-");
-        this.getContentPane().add(memoryMinus, constraints);
+        this.add(memoryMinus, constraints);
     }
 
     private void addNumberToScreen(String text) {
