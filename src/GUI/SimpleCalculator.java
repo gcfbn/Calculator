@@ -4,18 +4,18 @@ import javax.swing.*;
 
 import businessLogic.BusinessLogic;
 import businessLogic.Memory;
-import buttons.*;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+
 public class SimpleCalculator extends JPanel {
 
     private JTextArea display;
-    private OtherButton nine, eight, seven, six, five, four, three, two, one, point, zero, equals;
-    private TwoArgumentFunction plus, minus, multiply, divide;
-    private OtherButton sqrt, percent, delete, clear, memoryRecall, memoryClear, memoryPlus, memoryMinus;
+    private JButton nine, eight, seven, six, five, four, three, two, one, point, zero, equals;
+    private JButton plus, minus, multiply, divide;
+    private JButton sqrt, percent, delete, clear, memoryRecall, memoryClear, memoryPlus, memoryMinus;
     private final Memory memory;
 
     private final String ERROR_TEXT = "ERROR";
@@ -28,7 +28,7 @@ public class SimpleCalculator extends JPanel {
     // will replace this '4'
     // if false, next entered digit will be appended to current number on the display
 
-    private JButton calledFunction = null;
+    private javax.swing.JButton calledFunction = null;
     private String firstArgument;   //both this fields are used for two-argument functions
 
     public SimpleCalculator() {
@@ -62,107 +62,107 @@ public class SimpleCalculator extends JPanel {
         constraints.fill = GridBagConstraints.NONE;
         constraints.gridwidth = 1;
         constraints.gridy = 1;
-        seven = new OtherButton("7");
+        seven = new JButton("7");
         this.add(seven, constraints);
 
         constraints.gridx = 1;
-        eight = new OtherButton("8");
+        eight = new JButton("8");
         this.add(eight, constraints);
 
         constraints.gridx = 2;
-        nine = new OtherButton("9");
+        nine = new JButton("9");
         this.add(nine, constraints);
 
         constraints.gridy = 2;
         constraints.gridx = 0;
-        four = new OtherButton("4");
+        four = new JButton("4");
         this.add(four, constraints);
 
         constraints.gridx = 1;
-        five = new OtherButton("5");
+        five = new JButton("5");
         this.add(five, constraints);
 
         constraints.gridx = 2;
-        six = new OtherButton("6");
+        six = new JButton("6");
         this.add(six, constraints);
 
         constraints.gridy = 3;
         constraints.gridx = 0;
-        one = new OtherButton("1");
+        one = new JButton("1");
         this.add(one, constraints);
 
         constraints.gridx = 1;
-        two = new OtherButton("2");
+        two = new JButton("2");
         this.add(two, constraints);
 
         constraints.gridx = 2;
-        three = new OtherButton("3");
+        three = new JButton("3");
         this.add(three, constraints);
 
         constraints.gridy = 4;
         constraints.gridx = 0;
-        point = new OtherButton(".");
+        point = new JButton(".");
         this.add(point, constraints);
 
         constraints.gridx = 1;
-        zero = new OtherButton("0");
+        zero = new JButton("0");
         this.add(zero, constraints);
 
         constraints.gridx = 2;
-        equals = new OtherButton("=");
+        equals = new JButton("=");
         this.add(equals, constraints);
 
         constraints.gridy = 1;
         constraints.gridx = 3;
-        plus = new TwoArgumentFunction("+");
+        plus = new JButton("+");
         this.add(plus, constraints);
 
         constraints.gridy = 2;
-        minus = new TwoArgumentFunction("-");
+        minus = new JButton("-");
         this.add(minus, constraints);
 
         constraints.gridy = 3;
-        multiply = new TwoArgumentFunction("*");
+        multiply = new JButton("*");
         this.add(multiply, constraints);
 
         constraints.gridy = 4;
-        divide = new TwoArgumentFunction("/");
+        divide = new JButton("/");
         this.add(divide, constraints);
 
         constraints.gridy = 1;
         constraints.gridx = 4;
-        delete = new OtherButton("C");
+        delete = new JButton("C");
         this.add(delete, constraints);
 
         constraints.gridx = 5;
-        clear = new OtherButton("CE");
+        clear = new JButton("CE");
         this.add(clear, constraints);
 
         constraints.gridy = 2;
         constraints.gridx = 4;
-        sqrt = new OtherButton("\u221A");
+        sqrt = new JButton("\u221A");
         this.add(sqrt, constraints);
 
         constraints.gridx = 5;
-        percent = new OtherButton("%");
+        percent = new JButton("%");
         this.add(percent, constraints);
 
         constraints.gridy = 3;
         constraints.gridx = 4;
-        memoryRecall = new OtherButton("MR");
+        memoryRecall = new JButton("MR");
         this.add(memoryRecall, constraints);
 
         constraints.gridx = 5;
-        memoryClear = new OtherButton("MC");
+        memoryClear = new JButton("MC");
         this.add(memoryClear, constraints);
 
         constraints.gridy = 4;
         constraints.gridx = 4;
-        memoryPlus = new OtherButton("M+");
+        memoryPlus = new JButton("M+");
         this.add(memoryPlus, constraints);
 
         constraints.gridx = 5;
-        memoryMinus = new OtherButton("M-");
+        memoryMinus = new JButton("M-");
         this.add(memoryMinus, constraints);
     }
 
@@ -197,7 +197,7 @@ public class SimpleCalculator extends JPanel {
         public void actionPerformed(ActionEvent e) {
 
             Object source = e.getSource();
-            String buttonText = ((OtherButton) source).getText();
+            String buttonText = ((JButton) source).getText();
 
             if (nextDigitReplacesDisplay) setScreenText(buttonText);
             else addNumberToScreen(buttonText);
@@ -257,7 +257,7 @@ public class SimpleCalculator extends JPanel {
         @Override
         public void actionPerformed(ActionEvent e) {
 
-            calledFunction = (JButton) e.getSource();
+            calledFunction = (javax.swing.JButton) e.getSource();
             firstArgument = display.getText();
             nextDigitReplacesDisplay = true;
         }
@@ -313,7 +313,7 @@ public class SimpleCalculator extends JPanel {
         @Override
         public void actionPerformed(ActionEvent e) {
 
-            String function = ((JButton) e.getSource()).getText();
+            String function = ((javax.swing.JButton) e.getSource()).getText();
 
             switch (function) {
 
