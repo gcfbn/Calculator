@@ -45,9 +45,7 @@ public class BusinessLogic {
     public static String oneArgumentFunction(Object source, String argument) throws IllegalArgumentException {
 
         String function = ((JButton) source).getText();
-        System.out.println("function: " + function);
         double doubleArgument = Double.parseDouble(Functions.removeUnnecessaryDot(argument));
-        System.out.println("arg: " + doubleArgument);
 
         double doubleResult;
 
@@ -55,7 +53,6 @@ public class BusinessLogic {
 
             case "%":
                 doubleResult = doubleArgument * 0.01;
-                System.out.println("xyz");
                 break;
 
             case "\u221A":
@@ -65,7 +62,6 @@ public class BusinessLogic {
 
             default:
                 doubleResult = 0;
-                System.out.println("abc");
                 break;
         }
 
