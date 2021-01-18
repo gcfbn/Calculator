@@ -9,8 +9,8 @@ public class BusinessLogic {
 
         String function = ((JButton) source).getText();
 
-        double doubleFirstArgument = Double.parseDouble(removeUnnecessaryDot(firstArgument));
-        double doubleSecondArgument = Double.parseDouble(removeUnnecessaryDot(secondArgument));
+        double doubleFirstArgument = Double.parseDouble(Functions.removeUnnecessaryDot(firstArgument));
+        double doubleSecondArgument = Double.parseDouble(Functions.removeUnnecessaryDot(secondArgument));
 
         double doubleResult;
 
@@ -38,15 +38,15 @@ public class BusinessLogic {
                 return "";
         }
 
-        String stringResult = removeUnnecessaryFractionalPart(doubleResult);
-        return roundToNineDigits(stringResult);
+        String stringResult = Functions.removeUnnecessaryFractionalPart(doubleResult);
+        return Functions.roundToNineDigits(stringResult);
     }
 
     public static String oneArgumentFunction(Object source, String argument) throws IllegalArgumentException {
 
         String function = ((JButton) source).getText();
         System.out.println("function: " + function);
-        double doubleArgument = Double.parseDouble(removeUnnecessaryDot(argument));
+        double doubleArgument = Double.parseDouble(Functions.removeUnnecessaryDot(argument));
         System.out.println("arg: " + doubleArgument);
 
         double doubleResult;
@@ -69,28 +69,10 @@ public class BusinessLogic {
                 break;
         }
 
-        String stringResult = removeUnnecessaryFractionalPart(doubleResult);
-        return roundToNineDigits(stringResult);
+        String stringResult = Functions.removeUnnecessaryFractionalPart(doubleResult);
+        return Functions.roundToNineDigits(stringResult);
 
 
-    }
-
-    private static String removeUnnecessaryDot(String argument) {
-
-        if (argument.charAt(argument.length() - 1) == '.') return argument.substring(0, argument.length() - 1);
-        else return argument;
-    }
-
-    private static String removeUnnecessaryFractionalPart(double argument) {
-
-        if ((int) argument == argument) return Integer.toString((int) argument);
-        else return Double.toString(argument);
-    }
-
-    private static String roundToNineDigits(String argument) {
-
-        if (argument.length() > 9) return argument.substring(0, 9);
-        else return argument;
     }
 
 }
