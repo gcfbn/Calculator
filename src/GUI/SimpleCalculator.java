@@ -2,6 +2,7 @@ package GUI;
 
 import javax.swing.*;
 
+import businessLogic.BusinessLogic;
 import buttons.*;
 
 import java.awt.*;
@@ -15,13 +16,16 @@ public class SimpleCalculator extends JFrame {
     private TwoArgumentFunction plus, minus, multiply, divide;
     private OtherButton sqrt, percent, delete, clear, memoryRecall, memoryClear, memoryPlus, memoryMinus;
 
-    private boolean wasFunctionCalled = false;  //is true, when last operation was '=' or
-    // one-argument function and next entered digit will replace the already displayed numbers
-    //for example: when you enter '2' '+' '2' '=' there should be '4' on the display and next entered digit
-    // will replace this '4'
-    //if false, next entered digit will be appended to current number on the display
+    private final String ERROR_TEXT = "ERROR";
 
-    private JButton clickedFunction = null;
+    private boolean nextDigitReplacesDisplay = false;  //is true, when last operation was '=' or
+    // there is an error on the screen
+    // so next entered digit will replace the already displayed numbers
+    // for example: when you enter '2' '+' '2' '=' there should be '4' on the display and next entered digit
+    // will replace this '4'
+    // if false, next entered digit will be appended to current number on the display
+
+    private JButton calledFunction = null;
     private String firstArgument;   //both this fields are used for two-argument functions
 
     public SimpleCalculator() {
@@ -33,6 +37,8 @@ public class SimpleCalculator extends JFrame {
         this.addActionListeners();
         this.setResizable(false);
         this.setVisible(true);
+
+
     }
 
     private void createGUI() {
@@ -162,18 +168,25 @@ public class SimpleCalculator extends JFrame {
 
         if (display.getText().length() >= 9) return;
 
-        if (wasFunctionCalled) setScreenText(text);
+        if (nextDigitReplacesDisplay) setScreenText(text);
 
         if (display.getText().equals("0") && !text.equals(".")) {
             setScreenText(text);
-        }
-        else display.append(text);
+        } else display.append(text);
     }
 
     private void setScreenText(String text) {
 
+        display.setForeground(Color.BLACK);
         if (text.length() < 1) display.setText("0");
         else display.setText(text);
+    }
+
+    private void setScreenError() {
+
+        display.setForeground(Color.RED);
+        display.setText(ERROR_TEXT);
+        nextDigitReplacesDisplay = true;
     }
 
     class NumberActionListener implements ActionListener {
@@ -184,26 +197,26 @@ public class SimpleCalculator extends JFrame {
             Object source = e.getSource();
             String buttonText = ((OtherButton) source).getText();
 
-            if (wasFunctionCalled) setScreenText(buttonText);
+            if (nextDigitReplacesDisplay) setScreenText(buttonText);
             else addNumberToScreen(buttonText);
 
-            wasFunctionCalled = false;
+            nextDigitReplacesDisplay = false;
         }
     }
 
-    class PointActionListener implements ActionListener{
+    class PointActionListener implements ActionListener {
 
         @Override
         public void actionPerformed(ActionEvent e) {
 
             String currentText = display.getText();
-            if (!currentText.contains(".")){
+            if (!currentText.contains(".")) {
                 String newText = currentText + ".";
 
                 display.setText(newText);
             }
 
-            wasFunctionCalled = false;
+            nextDigitReplacesDisplay = false;
         }
     }
 
@@ -219,43 +232,72 @@ public class SimpleCalculator extends JFrame {
                 String newText = currentText.substring(0, currentText.length() - 1);
                 setScreenText(newText);
             }
-            wasFunctionCalled = false;
         }
     }
 
-    class ClearActionListener implements ActionListener{
+    class ClearActionListener implements ActionListener {
 
         @Override
         public void actionPerformed(ActionEvent e) {
             setScreenText("0");
-            wasFunctionCalled = false;
+            nextDigitReplacesDisplay = false;
         }
     }
 
-    class TwoArgumentFunctionActionListener implements ActionListener{
+    class TwoArgumentFunctionActionListener implements ActionListener {
 
         @Override
         public void actionPerformed(ActionEvent e) {
 
-            clickedFunction = (JButton)e.getSource();
+            calledFunction = (JButton) e.getSource();
             firstArgument = display.getText();
-            wasFunctionCalled = true;
+            nextDigitReplacesDisplay = true;
         }
     }
 
-    class EqualsActionListener implements ActionListener{
+    class OneArgumentFunctionActionListener implements ActionListener {
+
 
         @Override
         public void actionPerformed(ActionEvent e) {
 
-            if (!wasFunctionCalled){
+            String argument = display.getText();
 
+            if (!argument.equals(ERROR_TEXT)) {
+
+                try {
+                    String result = BusinessLogic.oneArgumentFunction(e.getSource(), argument);
+                    setScreenText(result);
+                } catch (IllegalArgumentException exception) {
+                    setScreenError();
+                } finally {
+                    nextDigitReplacesDisplay = false;
+                }
+            }
+        }
+    }
+
+    class EqualsActionListener implements ActionListener {
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+
+            if (!nextDigitReplacesDisplay) {
+
+                String result;
                 String secondArgument = display.getText();
 
+                try {
+                    result = BusinessLogic.twoArgumentFunction(calledFunction, firstArgument, secondArgument);
+                    setScreenText(result);
+                } catch (IllegalArgumentException exception) {
+                    setScreenError();
+                } finally {
+                    nextDigitReplacesDisplay = true;
+                }
             }
 
         }
-
     }
 
     private void addActionListeners() {
@@ -280,5 +322,10 @@ public class SimpleCalculator extends JFrame {
         minus.addActionListener(new TwoArgumentFunctionActionListener());
         multiply.addActionListener(new TwoArgumentFunctionActionListener());
         divide.addActionListener(new TwoArgumentFunctionActionListener());
+
+        equals.addActionListener(new EqualsActionListener());
+
+        sqrt.addActionListener(new OneArgumentFunctionActionListener());
+        percent.addActionListener(new OneArgumentFunctionActionListener());
     }
 }
