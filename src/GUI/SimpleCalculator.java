@@ -208,7 +208,7 @@ public class SimpleCalculator extends JPanel {
         @Override
         public void actionPerformed(ActionEvent e) {
 
-            if (nextDigitReplacesDisplay){
+            if (nextDigitReplacesDisplay) {
                 setScreenText("0.");
                 nextDigitReplacesDisplay = false;
                 return;
