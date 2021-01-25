@@ -38,9 +38,6 @@ public class SimpleCalculator extends JPanel {
         this.setLayout(new GridBagLayout());
         this.createGUI();
         this.addActionListeners();
-
-
-
     }
 
     private void createGUI() {
@@ -59,7 +56,7 @@ public class SimpleCalculator extends JPanel {
         display.setFont(new Font("Arial", Font.BOLD, 24));
         this.add(display, constraints);
 
-        constraints.fill = GridBagConstraints.NONE;
+        constraints.fill = GridBagConstraints.BOTH;
         constraints.gridwidth = 1;
         constraints.gridy = 1;
         seven = new JButton("7");
@@ -191,7 +188,7 @@ public class SimpleCalculator extends JPanel {
         nextDigitReplacesDisplay = true;
     }
 
-    class NumberActionListener implements ActionListener {
+    protected class NumberActionListener implements ActionListener {
 
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -206,7 +203,7 @@ public class SimpleCalculator extends JPanel {
         }
     }
 
-    class PointActionListener implements ActionListener {
+    protected class PointActionListener implements ActionListener {
 
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -228,7 +225,7 @@ public class SimpleCalculator extends JPanel {
         }
     }
 
-    class DeleteActionListener implements ActionListener {
+    protected class DeleteActionListener implements ActionListener {
 
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -243,7 +240,7 @@ public class SimpleCalculator extends JPanel {
         }
     }
 
-    class ClearActionListener implements ActionListener {
+    protected class ClearActionListener implements ActionListener {
 
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -252,7 +249,7 @@ public class SimpleCalculator extends JPanel {
         }
     }
 
-    class TwoArgumentFunctionActionListener implements ActionListener {
+    protected class TwoArgumentFunctionActionListener implements ActionListener {
 
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -263,7 +260,7 @@ public class SimpleCalculator extends JPanel {
         }
     }
 
-    class OneArgumentFunctionActionListener implements ActionListener {
+    protected class OneArgumentFunctionActionListener implements ActionListener {
 
 
         @Override
@@ -285,7 +282,7 @@ public class SimpleCalculator extends JPanel {
         }
     }
 
-    class EqualsActionListener implements ActionListener {
+    protected class EqualsActionListener implements ActionListener {
 
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -308,7 +305,7 @@ public class SimpleCalculator extends JPanel {
         }
     }
 
-    class MemoryActionListener implements ActionListener {
+    protected class MemoryActionListener implements ActionListener {
 
         @Override
         public void actionPerformed(ActionEvent e) {
