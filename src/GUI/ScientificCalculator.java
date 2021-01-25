@@ -1,9 +1,14 @@
 package GUI;
 
+import businessLogic.BusinessLogic;
+import businessLogic.Functions;
+
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
-public class ScientificCalculator extends SimpleCalculator{
+public class ScientificCalculator extends SimpleCalculator {
 
     private JButton sin, cos, tan, ctg, arcSin, arcCos, arcTan, arcCtg;
     private JRadioButton degrees, radians;
@@ -12,12 +17,14 @@ public class ScientificCalculator extends SimpleCalculator{
     private JButton pi, e;
     private JButton ln, log;
 
-    public ScientificCalculator(){
+    public ScientificCalculator() {
         super();
         createGUI();
+
+        addActionListeners();
     }
 
-    private void createGUI(){
+    private void createGUI() {
         GridBagConstraints constraints = new GridBagConstraints();
 
         constraints.fill = GridBagConstraints.BOTH;
@@ -102,5 +109,82 @@ public class ScientificCalculator extends SimpleCalculator{
         constraints.gridx = 5;
         log = new JButton("log_a b");
         this.add(log, constraints);
+    }
+
+    protected class TrigonometricFunctionActionListener implements ActionListener {
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+
+            String argument = display.getText();
+
+            try {
+                String result = BusinessLogic.trigonometricFunction(e.getSource(), argument, degrees.isSelected());
+                setScreenText(result);
+            } catch (IllegalArgumentException exception) {
+                setScreenError();
+            } finally {
+                nextDigitReplacesDisplay = true;
+            }
+        }
+    }
+
+    protected class ArcusFunctionActionListener implements ActionListener {
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+
+            String argument = display.getText();
+
+            try {
+                String result = BusinessLogic.arcusFunction(e.getSource(), argument, degrees.isSelected());
+                setScreenText(result);
+            } catch (IllegalArgumentException exception) {
+                setScreenError();
+            } finally {
+                nextDigitReplacesDisplay = true;
+            }
+
+        }
+    }
+
+    protected class ConstantActionListener implements ActionListener {
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+
+            JButton source = (JButton) e.getSource();
+            String constant = source.getText();
+
+            switch (constant) {
+                case "pi" -> setScreenText(Functions.roundToNineDigits(Double.toString(Math.PI)));
+                case "e" -> setScreenText(Functions.roundToNineDigits(Double.toString(Math.E)));
+            }
+
+            nextDigitReplacesDisplay = false;
+        }
+
+    }
+
+    private void addActionListeners() {
+
+        sin.addActionListener(new TrigonometricFunctionActionListener());
+        cos.addActionListener(new TrigonometricFunctionActionListener());
+        tan.addActionListener(new TrigonometricFunctionActionListener());
+        ctg.addActionListener(new TrigonometricFunctionActionListener());
+
+        arcSin.addActionListener(new ArcusFunctionActionListener());
+        arcCos.addActionListener(new ArcusFunctionActionListener());
+        arcTan.addActionListener(new ArcusFunctionActionListener());
+        arcCtg.addActionListener(new ArcusFunctionActionListener());
+
+        xPowerOfY.addActionListener(new TwoArgumentFunctionActionListener());
+        nRootOfX.addActionListener(new TwoArgumentFunctionActionListener());
+
+        pi.addActionListener(new ConstantActionListener());
+        e.addActionListener(new ConstantActionListener());
+
+        ln.addActionListener(new OneArgumentFunctionActionListener());
+        log.addActionListener(new OneArgumentFunctionActionListener());
     }
 }
