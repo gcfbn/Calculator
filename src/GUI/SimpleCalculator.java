@@ -276,7 +276,7 @@ public class SimpleCalculator extends JPanel {
                 } catch (IllegalArgumentException exception) {
                     setScreenError();
                 } finally {
-                    nextDigitReplacesDisplay = false;
+                    nextDigitReplacesDisplay = true;
                 }
             }
         }
@@ -287,7 +287,7 @@ public class SimpleCalculator extends JPanel {
         @Override
         public void actionPerformed(ActionEvent e) {
 
-            if (!nextDigitReplacesDisplay) {
+            if (!nextDigitReplacesDisplay && calledFunction != null) {
 
                 String result;
                 String secondArgument = display.getText();
