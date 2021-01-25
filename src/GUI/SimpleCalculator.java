@@ -12,11 +12,11 @@ import java.awt.event.ActionListener;
 
 public class SimpleCalculator extends JPanel {
 
-    private JTextArea display;
+    protected JTextArea display;
     private JButton nine, eight, seven, six, five, four, three, two, one, point, zero, equals;
     private JButton plus, minus, multiply, divide;
     private JButton sqrt, percent, delete, clear, memoryRecall, memoryClear, memoryPlus, memoryMinus;
-    private final Memory memory;
+    protected final Memory memory;
 
     protected final String ERROR_TEXT = "ERROR";
 
