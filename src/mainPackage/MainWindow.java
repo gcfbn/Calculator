@@ -9,6 +9,11 @@ public class MainWindow extends JFrame{
 
     private JPanel view;
 
+    public static void main(String[] args){
+
+        MainWindow mainWindow = new MainWindow();
+    }
+
     public MainWindow(){
 
         this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
