@@ -18,9 +18,9 @@ public class SimpleCalculator extends JPanel {
     private JButton sqrt, percent, delete, clear, memoryRecall, memoryClear, memoryPlus, memoryMinus;
     private final Memory memory;
 
-    private final String ERROR_TEXT = "ERROR";
+    protected final String ERROR_TEXT = "ERROR";
 
-    private boolean nextDigitReplacesDisplay = false;
+    protected boolean nextDigitReplacesDisplay = false;
     //is true, when last operation was '=' or
     // there is an error on the screen
     // so next entered digit will replace the already displayed numbers
@@ -28,8 +28,8 @@ public class SimpleCalculator extends JPanel {
     // will replace this '4'
     // if false, next entered digit will be appended to current number on the display
 
-    private javax.swing.JButton calledFunction = null;
-    private String firstArgument;   //both this fields are used for two-argument functions
+    protected javax.swing.JButton calledFunction = null;
+    protected String firstArgument;   //both this fields are used for two-argument functions
 
     public SimpleCalculator() {
 
