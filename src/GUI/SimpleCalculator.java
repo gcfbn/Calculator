@@ -174,14 +174,14 @@ public class SimpleCalculator extends JPanel {
         } else display.append(text);
     }
 
-    private void setScreenText(String text) {
+    protected void setScreenText(String text) {
 
         display.setForeground(Color.BLACK);
         if (text.length() < 1) display.setText("0");
         else display.setText(text);
     }
 
-    private void setScreenError() {
+    protected void setScreenError() {
 
         display.setForeground(Color.RED);
         display.setText(ERROR_TEXT);
