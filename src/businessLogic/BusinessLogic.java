@@ -1,142 +1,103 @@
 package businessLogic;
 
-import javax.swing.*;
-
 public class BusinessLogic {
 
-    public static String twoArgumentFunction(Object source, String firstArgument, String secondArgument)
+    public static double twoArgumentFunction(String function, double firstArgument, double secondArgument)
             throws IllegalArgumentException {
 
-        String function = ((JButton) source).getText();
-
-        double doubleFirstArgument = Double.parseDouble(Functions.removeUnnecessaryDot(firstArgument));
-        double doubleSecondArgument = Double.parseDouble(Functions.removeUnnecessaryDot(secondArgument));
-
-        double doubleResult = 0;
-
         switch (function) {
-            case "+" -> doubleResult = doubleFirstArgument + doubleSecondArgument;
-            case "-" -> doubleResult = doubleFirstArgument - doubleSecondArgument;
-            case "*" -> doubleResult = doubleFirstArgument * doubleSecondArgument;
-            case "/" -> {
-                if (doubleSecondArgument == 0.0) throw new IllegalArgumentException();
-                else doubleResult = doubleFirstArgument / doubleSecondArgument;
-            }
-            case "x^y" -> doubleResult = Math.pow(doubleFirstArgument, doubleSecondArgument);
-            case "nth root" -> {
-                if (doubleFirstArgument == 0.0) throw new IllegalArgumentException();
-                else doubleResult = Math.pow(doubleSecondArgument, 1.0 / doubleFirstArgument);
-            }
-            case "log_a b" -> {
-                if (doubleFirstArgument <= 0 || doubleFirstArgument == 1 || doubleSecondArgument <= 0)
-                    throw new IllegalArgumentException();
-                else doubleResult = Math.log(doubleSecondArgument) / Math.log(doubleFirstArgument);
-            }
-        }
+            case "+":
+                return firstArgument + secondArgument;
 
-        String stringResult = Functions.removeUnnecessaryFractionalPart(doubleResult);
-        return Functions.roundToNineDigits(stringResult);
+            case "-":
+                return firstArgument - secondArgument;
+
+            case "*":
+                return firstArgument * secondArgument;
+            case "/": {
+                if (secondArgument == 0.0) throw new IllegalArgumentException();
+                else return firstArgument / secondArgument;
+            }
+            case "x^y":
+                return Math.pow(firstArgument, secondArgument);
+            case "nth root": {
+                if (firstArgument == 0.0) throw new IllegalArgumentException();
+                else return Math.pow(secondArgument, 1.0 / firstArgument);
+            }
+            case "log_a b": {
+                if (firstArgument <= 0 || firstArgument == 1 || secondArgument <= 0)
+                    throw new IllegalArgumentException();
+                else return Math.log(secondArgument) / Math.log(firstArgument);
+            }
+            default:
+                throw new IllegalArgumentException();
+        }
     }
 
-    public static String oneArgumentFunction(Object source, String argument) throws IllegalArgumentException {
-
-        String function = ((JButton) source).getText();
-        double doubleArgument = Double.parseDouble(Functions.removeUnnecessaryDot(argument));
-
-        double doubleResult = 0;
+    public static double oneArgumentFunction(String function, double argument) throws IllegalArgumentException {
 
         switch (function) {
 
             case "%":
-                doubleResult = doubleArgument * 0.01;
-                break;
+                return argument * 0.01;
 
             case "\u221A":
-                if (doubleArgument < 0.0) throw new IllegalArgumentException();
-                else doubleResult = Math.sqrt(doubleArgument);
-                break;
+                if (argument < 0.0) throw new IllegalArgumentException();
+                else return Math.sqrt(argument);
 
             case "ln":
-                if (doubleArgument <= 0.0) throw new IllegalArgumentException();
-                else doubleResult = Math.log(doubleArgument);
+                if (argument <= 0.0) throw new IllegalArgumentException();
+                else return Math.log(argument);
+
+            default:
+                throw new IllegalArgumentException();
         }
-
-        String stringResult = Functions.removeUnnecessaryFractionalPart(doubleResult);
-        return Functions.roundToNineDigits(stringResult);
-
-
     }
 
-    public static String trigonometricFunction(Object source, String argument, boolean useDegrees) {
-
-        String function = ((JButton) source).getText();
-        double doubleArgument = Double.parseDouble(Functions.removeUnnecessaryDot(argument));
-
-        if (useDegrees) doubleArgument = doubleArgument * Math.PI / 180; //converts from deg to rad
-
-        double doubleResult = 0;
+    public static double trigonometricFunction(String function, double argument) {
 
         switch (function) {
 
             case "sin":
-                doubleResult = Math.sin(doubleArgument);
-                break;
+                return Math.sin(argument);
 
             case "cos":
-                doubleResult = Math.cos(doubleArgument);
-                break;
+                return Math.cos(argument);
 
             case "tan":
-                if (Math.cos(doubleArgument) == 0) throw new IllegalArgumentException();
-                else doubleResult = Math.sin(doubleArgument) / Math.cos(doubleArgument);
-
-                break;
+                if (Math.cos(argument) == 0) throw new IllegalArgumentException();
+                return Math.sin(argument) / Math.cos(argument);
 
             case "ctg":
 
-                if (Math.sin(doubleArgument) == 0) throw new IllegalArgumentException();
-                else doubleResult = Math.cos(doubleArgument) / Math.sin(doubleArgument);
+                if (Math.sin(argument) == 0) throw new IllegalArgumentException();
+                return Math.cos(argument) / Math.sin(argument);
 
-                break;
-
+            default:
+                throw new IllegalArgumentException();
         }
-
-        String stringResult = Functions.removeUnnecessaryFractionalPart(doubleResult);
-        return Functions.roundToNineDigits(stringResult);
     }
 
-    public static String arcusFunction(Object source, String argument, boolean useDegrees) {
+    public static double arcusFunction(String function, double argument) {
 
-        String function = ((JButton) source).getText();
-        double doubleArgument = Double.parseDouble(Functions.removeUnnecessaryDot(argument));
-
-        double doubleResult = 0;
 
         switch (function) {
 
             case "arcsin":
-                if (doubleArgument < -1 || doubleArgument > 1) throw new IllegalArgumentException();
-                else doubleResult = Math.asin(doubleArgument);
-                break;
+                if (argument < -1 || argument > 1) throw new IllegalArgumentException();
+                else return Math.asin(argument);
 
             case "arccos":
-                if (doubleArgument < -1 || doubleArgument > 1) throw new IllegalArgumentException();
-                else doubleResult = Math.acos(doubleArgument);
-                break;
+                if (argument < -1 || argument > 1) throw new IllegalArgumentException();
+                else return Math.acos(argument);
 
             case "arctan":
-                doubleResult = Math.atan(doubleArgument);
-                break;
+                return Math.atan(argument);
 
             case "arcctg":
-                doubleResult = Math.PI / 2 - Math.atan(doubleArgument);
-                break;
+                return Math.PI / 2 - Math.atan(argument);
+
+            default: throw new IllegalArgumentException();
         }
-
-        if (useDegrees) doubleResult = doubleResult * 180 / Math.PI;
-
-        String stringResult = Functions.removeUnnecessaryFractionalPart(doubleResult);
-        return Functions.roundToNineDigits(stringResult);
     }
-
 }

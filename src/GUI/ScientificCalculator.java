@@ -1,7 +1,7 @@
 package GUI;
 
-import businessLogic.BusinessLogic;
-import businessLogic.Functions;
+import controllers.ControllerMethods;
+import controllers.ScientificCalculatorController;
 
 import javax.swing.*;
 import java.awt.*;
@@ -12,7 +12,6 @@ public class ScientificCalculator extends SimpleCalculator {
 
     private JButton sin, cos, tan, ctg, arcSin, arcCos, arcTan, arcCtg;
     private JRadioButton degrees, radians;
-    private ButtonGroup angleUnit;
     private JButton xPowerOfY, nRootOfX;
     private JButton pi, e;
     private JButton ln, log;
@@ -79,7 +78,7 @@ public class ScientificCalculator extends SimpleCalculator {
         radians.setSelected(true);
         this.add(radians, constraints);
 
-        angleUnit = new ButtonGroup();
+        ButtonGroup angleUnit = new ButtonGroup();
         angleUnit.add(degrees);
         angleUnit.add(radians);
 
@@ -119,7 +118,7 @@ public class ScientificCalculator extends SimpleCalculator {
             String argument = display.getText();
 
             try {
-                String result = BusinessLogic.trigonometricFunction(e.getSource(), argument, degrees.isSelected());
+                String result = ScientificCalculatorController.trigonometricFunction(e.getSource(), argument, degrees.isSelected());
                 setScreenText(result);
             } catch (IllegalArgumentException exception) {
                 setScreenError();
@@ -137,7 +136,7 @@ public class ScientificCalculator extends SimpleCalculator {
             String argument = display.getText();
 
             try {
-                String result = BusinessLogic.arcusFunction(e.getSource(), argument, degrees.isSelected());
+                String result = ScientificCalculatorController.arcusFunction(e.getSource(), argument, degrees.isSelected());
                 setScreenText(result);
             } catch (IllegalArgumentException exception) {
                 setScreenError();
@@ -157,13 +156,12 @@ public class ScientificCalculator extends SimpleCalculator {
             String constant = source.getText();
 
             switch (constant) {
-                case "pi" -> setScreenText(Functions.roundToNineDigits(Double.toString(Math.PI)));
-                case "e" -> setScreenText(Functions.roundToNineDigits(Double.toString(Math.E)));
+                case "pi" -> setScreenText(ControllerMethods.formatResultToString(Math.PI));
+                case "e" -> setScreenText(ControllerMethods.formatResultToString(Math.E));
             }
 
             nextDigitReplacesDisplay = false;
         }
-
     }
 
     private void addActionListeners() {

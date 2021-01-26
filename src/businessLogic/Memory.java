@@ -1,29 +1,25 @@
 package businessLogic;
 
+import controllers.ControllerMethods;
+
 public class Memory {
 
-    private double currentValue = 0.0;
+    private static double currentValue = 0.0;
 
-    public void memoryPlus(String argument) {
-
-        double doubleArgument = Double.parseDouble(Functions.removeUnnecessaryDot(argument));
-
-        currentValue += doubleArgument;
+    public static void memoryPlus(double argument) {
+        currentValue += argument;
     }
 
-    public void memoryMinus(String argument) {
+    public static void memoryMinus(double argument) {
 
-        double doubleArgument = Double.parseDouble(Functions.removeUnnecessaryDot(argument));
-
-        currentValue -= doubleArgument;
+        currentValue -= argument;
     }
 
-    public void memoryClear() {
+    public static void memoryClear() {
         currentValue = 0.0;
     }
 
-    public String memoryRecall() {
-
-        return Functions.removeUnnecessaryFractionalPart(currentValue);
+    public static double memoryRecall() {
+        return currentValue;
     }
 }

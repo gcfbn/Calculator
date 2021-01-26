@@ -1,10 +1,10 @@
 package GUI;
 
-import javax.swing.*;
-
-import businessLogic.BusinessLogic;
 import businessLogic.Memory;
+import controllers.MemoryController;
+import controllers.SimpleCalculatorController;
 
+import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -16,7 +16,6 @@ public class SimpleCalculator extends JPanel {
     private JButton nine, eight, seven, six, five, four, three, two, one, point, zero, equals;
     private JButton plus, minus, multiply, divide;
     private JButton sqrt, percent, delete, clear, memoryRecall, memoryClear, memoryPlus, memoryMinus;
-    protected final Memory memory;
 
     protected final String ERROR_TEXT = "ERROR";
 
@@ -32,8 +31,6 @@ public class SimpleCalculator extends JPanel {
     protected String firstArgument;   //both this fields are used for two-argument functions
 
     public SimpleCalculator() {
-
-        this.memory = new Memory();
 
         this.setLayout(new GridBagLayout());
         this.createGUI();
@@ -271,7 +268,7 @@ public class SimpleCalculator extends JPanel {
             if (!argument.equals(ERROR_TEXT)) {
 
                 try {
-                    String result = BusinessLogic.oneArgumentFunction(e.getSource(), argument);
+                    String result = SimpleCalculatorController.oneArgumentFunction(e.getSource(), argument);
                     setScreenText(result);
                 } catch (IllegalArgumentException exception) {
                     setScreenError();
@@ -289,16 +286,16 @@ public class SimpleCalculator extends JPanel {
 
             if (!nextDigitReplacesDisplay && calledFunction != null) {
 
-                String result;
                 String secondArgument = display.getText();
 
                 try {
-                    result = BusinessLogic.twoArgumentFunction(calledFunction, firstArgument, secondArgument);
+                    String result = SimpleCalculatorController.twoArgumentFunction(calledFunction, firstArgument, secondArgument);
                     setScreenText(result);
                 } catch (IllegalArgumentException exception) {
                     setScreenError();
                 } finally {
                     nextDigitReplacesDisplay = true;
+                    calledFunction = null;
                 }
             }
 
@@ -316,18 +313,18 @@ public class SimpleCalculator extends JPanel {
 
                 case "M+" -> {
                     String value = display.getText();
-                    if (!value.equals(ERROR_TEXT)) memory.memoryPlus(value);
+                    if (!value.equals(ERROR_TEXT)) MemoryController.memoryPlus(value);
                 }
 
                 case "M-" -> {
                     String value = display.getText();
-                    if (!value.equals(ERROR_TEXT)) memory.memoryMinus(value);
+                    if (!value.equals(ERROR_TEXT)) MemoryController.memoryMinus(value);
                 }
 
-                case "MC" -> memory.memoryClear();
+                case "MC" -> MemoryController.memoryClear();
 
                 case "MR" -> {
-                    setScreenText(memory.memoryRecall());
+                    setScreenText(MemoryController.memoryRecall());
                     nextDigitReplacesDisplay = false;
                 }
             }
